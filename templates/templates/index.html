@@ -1,1 +1,80 @@
 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Web Application Security Scanner</title>
+    <style>
+        * { box-sizing: border-box; }
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #0f172a;
+            color: white;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        .card {
+            width: 100%;
+            max-width: 650px;
+            background: #1e293b;
+            padding: 40px;
+            border-radius: 18px;
+            text-align: center;
+            box-shadow: 0 15px 40px #0005;
+        }
+        .icon { font-size: 48px; }
+        h1 { color: #38bdf8; }
+        p { color: #cbd5e1; line-height: 1.6; }
+        input {
+            width: 100%;
+            padding: 15px;
+            margin: 20px 0 14px;
+            border-radius: 8px;
+            border: 1px solid #475569;
+            background: #0f172a;
+            color: white;
+            font-size: 16px;
+        }
+        button {
+            width: 100%;
+            padding: 15px;
+            border: 0;
+            border-radius: 8px;
+            background: #0284c7;
+            color: white;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        button:hover { background: #0369a1; }
+        .note { font-size: 13px; margin-top: 22px; }
+    </style>
+</head>
+<body>
+    <main class="card">
+        <div class="icon">🛡️</div>
+        <h1>Web Application Security Scanner</h1>
+        <p>Analyze website information and review basic security headers.</p>
+
+        <form action="/start-scan" method="POST">
+            <input
+                type="url"
+                name="url"
+                placeholder="https://example.com"
+                value="https://example.com"
+                required>
+            <button type="submit">Start Security Scan</button>
+        </form>
+
+        <p class="note">
+            Only scan websites you own or have permission to test.
+        </p>
+    </main>
+</body>
+</html>
+
