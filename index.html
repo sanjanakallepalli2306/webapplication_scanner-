@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Web Application Security Scanner</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+
+</head>
+
+<body>
+
+<div class="container">
+
+    <div class="header">
+
+        <h1>🛡 Web Application Security Scanner</h1>
+
+        <p>
+            Authorized security information analysis
+        </p>
+
+    </div>
+
+
+    <div class="section">
+
+        <h2>Enter Authorized Website URL</h2>
+
+        <br>
+
+      <form action="/start-scan" method="POST">
+            <input
+                type="url"
+                name="url"
+                placeholder="https://example.com"
+                required
+                style="
+                    width: 100%;
+                    padding: 14px;
+                    font-size: 16px;
+                    border: 1px solid #cbd5e1;
+                    border-radius: 8px;
+                "
+            >
+
+            <br><br>
+
+            <button
+                type="submit"
+                style="
+                    padding: 13px 25px;
+                    background: #111827;
+                    color: white;
+                    border: none;
+                    border-radius: 8px;
+                    cursor: pointer;
+                    font-size: 16px;
+                "
+            >
+                🔍 Start Security Scan
+            </button>
+
+        </form>
+
+    </div>
+
+</div>
+
+</body>
+
+</html>

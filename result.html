@@ -1,0 +1,649 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>
+        Web Security Scanner - Results
+    </title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+
+</head>
+
+
+<body>
+
+
+<div class="container">
+
+
+    <!-- ================================= -->
+    <!-- HEADER -->
+    <!-- ================================= -->
+
+    <div class="header">
+
+        <h1>
+            Web Application Security Scanner
+        </h1>
+
+        <p>
+            Security Scan Report
+        </p>
+
+    </div>
+
+
+    <!-- ================================= -->
+    <!-- TARGET -->
+    <!-- ================================= -->
+
+    <div class="section">
+
+        <h2>
+            Target Website
+        </h2>
+
+        <p class="target-url">
+            {{ url }}
+        </p>
+
+    </div>
+
+
+    <!-- ================================= -->
+    <!-- BASIC INFORMATION -->
+    <!-- ================================= -->
+
+    <div class="cards">
+
+
+        <div class="card">
+
+            <h3>
+                HTTP STATUS
+            </h3>
+
+            <p>
+                {{ status_code }}
+            </p>
+
+        </div>
+
+
+        <div class="card">
+
+            <h3>
+                FORMS
+            </h3>
+
+            <p>
+                {{ forms_count }}
+            </p>
+
+        </div>
+
+
+        <div class="card">
+
+            <h3>
+                LINKS
+            </h3>
+
+            <p>
+                {{ links_count }}
+            </p>
+
+        </div>
+
+
+        <div class="card">
+
+            <h3>
+                COOKIES
+            </h3>
+
+            <p>
+                {{ cookies_count }}
+            </p>
+
+        </div>
+
+
+    </div>
+
+
+    <!-- ================================= -->
+    <!-- PAGE INFORMATION -->
+    <!-- ================================= -->
+
+    <div class="section">
+
+        <h2>
+            Page Information
+        </h2>
+
+        <p>
+
+            <strong>
+                Page Title:
+            </strong>
+
+            {{ title }}
+
+        </p>
+
+    </div>
+
+
+    <!-- ================================= -->
+    <!-- HTTPS -->
+    <!-- ================================= -->
+
+    <div class="section">
+
+        <h2>
+            HTTPS Security
+        </h2>
+
+        <p>
+
+            <strong>
+                Protocol:
+            </strong>
+
+            {% if https_secure %}
+                HTTPS
+            {% else %}
+                HTTP
+            {% endif %}
+
+        </p>
+
+
+        <p>
+
+            <strong>
+                Status:
+            </strong>
+
+            {% if https_secure %}
+
+                Secure connection (HTTPS)
+
+            {% else %}
+
+                Not encrypted (HTTP)
+
+            {% endif %}
+
+        </p>
+
+    </div>
+
+
+    <!-- ================================= -->
+    <!-- TECHNOLOGIES -->
+    <!-- ================================= -->
+
+    <div class="section">
+
+        <h2>
+            Technology Indicators
+        </h2>
+
+
+        <ul>
+
+            {% for technology in technologies %}
+
+            <li>
+                {{ technology }}
+            </li>
+
+            {% endfor %}
+
+        </ul>
+
+    </div>
+
+
+    <!-- ================================= -->
+    <!-- SECURITY SCORE -->
+    <!-- ================================= -->
+
+    <div class="section">
+
+        <h2>
+            Security Score
+        </h2>
+
+
+        <p
+            style="
+                font-size: 42px;
+                font-weight: bold;
+            "
+        >
+
+            {{ security_score }}%
+
+        </p>
+
+    </div>
+
+
+    <!-- ================================= -->
+    <!-- SECURITY HEADERS -->
+    <!-- ================================= -->
+
+    <div class="section">
+
+        <h2>
+            Security Headers
+        </h2>
+
+
+        <ul>
+
+            {% for header, result in security_results.items() %}
+
+            <li>
+
+                <strong>
+                    {{ header }}
+                </strong>
+
+
+                {% if result.status == "Present" %}
+
+                    — Present
+
+                {% else %}
+
+                    — Missing
+
+                {% endif %}
+
+
+                <br>
+
+
+                <small>
+                    {{ result.description }}
+                </small>
+
+            </li>
+
+            {% endfor %}
+
+        </ul>
+
+    </div>
+
+
+    <!-- ================================= -->
+    <!-- FORM SECURITY -->
+    <!-- ================================= -->
+
+    <div class="section">
+
+        <h2>
+            Form Security
+        </h2>
+
+
+        {% if form_results %}
+
+
+            {% for form in form_results %}
+
+
+            <div class="scan-step">
+
+                <h3>
+                    Form {{ form.number }}
+                </h3>
+
+
+                <p>
+
+                    <strong>
+                        Method:
+                    </strong>
+
+                    {{ form.method }}
+
+                </p>
+
+
+                <p>
+
+                    <strong>
+                        Action:
+                    </strong>
+
+                    {{ form.action }}
+
+                </p>
+
+
+                <p>
+
+                    <strong>
+                        Password Field:
+                    </strong>
+
+
+                    {% if form.has_password %}
+
+                        Yes
+
+                    {% else %}
+
+                        No
+
+                    {% endif %}
+
+                </p>
+
+
+                <p>
+
+                    <strong>
+                        HTTPS Submission:
+                    </strong>
+
+
+                    {% if form.https %}
+
+                        Yes
+
+                    {% else %}
+
+                        No
+
+                    {% endif %}
+
+                </p>
+
+            </div>
+
+
+            {% endfor %}
+
+
+        {% else %}
+
+            <p>
+                No HTML forms were found.
+            </p>
+
+        {% endif %}
+
+    </div>
+
+
+    <!-- ================================= -->
+    <!-- LINK ANALYSIS -->
+    <!-- ================================= -->
+
+    <div class="section">
+
+        <h2>
+            Link Analysis
+        </h2>
+
+
+        <p>
+
+            <strong>
+                Total Links:
+            </strong>
+
+            {{ links_count }}
+
+        </p>
+
+
+        <p>
+
+            <strong>
+                Internal Links:
+            </strong>
+
+            {{ internal_links | length }}
+
+        </p>
+
+
+        <p>
+
+            <strong>
+                External Links:
+            </strong>
+
+            {{ external_links | length }}
+
+        </p>
+
+
+        <!-- INTERNAL LINKS -->
+
+        {% if internal_links %}
+
+        <h3>
+            Internal Links
+        </h3>
+
+
+        <ul>
+
+            {% for link in internal_links[:20] %}
+
+            <li>
+                {{ link }}
+            </li>
+
+            {% endfor %}
+
+        </ul>
+
+        {% else %}
+
+        <p>
+            No internal links found.
+        </p>
+
+        {% endif %}
+
+
+        <!-- EXTERNAL LINKS -->
+
+        {% if external_links %}
+
+        <h3>
+            External Links
+        </h3>
+
+
+        <ul>
+
+            {% for link in external_links[:20] %}
+
+            <li>
+                {{ link }}
+            </li>
+
+            {% endfor %}
+
+        </ul>
+
+        {% else %}
+
+        <p>
+            No external links found.
+        </p>
+
+        {% endif %}
+
+
+    </div>
+
+
+    <!-- ================================= -->
+    <!-- HTTP HEADERS -->
+    <!-- ================================= -->
+
+    <div class="section">
+
+        <h2>
+            HTTP Headers
+        </h2>
+
+
+        <ul>
+
+            {% for name, value in headers.items() %}
+
+            <li>
+
+                <strong>
+                    {{ name }}
+                </strong>
+
+                :
+
+                {{ value }}
+
+            </li>
+
+            {% endfor %}
+
+        </ul>
+
+    </div>
+
+
+    <!-- ================================= -->
+    <!-- COOKIE SECURITY -->
+    <!-- ================================= -->
+
+    <div class="section">
+
+        <h2>
+            Cookie Security
+        </h2>
+
+
+        {% if cookie_results %}
+
+
+            {% for cookie in cookie_results %}
+
+
+            <div class="scan-step">
+
+                <h3>
+                    {{ cookie.name }}
+                </h3>
+
+
+                <p>
+
+                    <strong>
+                        Secure:
+                    </strong>
+
+
+                    {% if cookie.secure %}
+
+                        Yes
+
+                    {% else %}
+
+                        No
+
+                    {% endif %}
+
+                </p>
+
+
+                <p>
+
+                    <strong>
+                        HttpOnly:
+                    </strong>
+
+
+                    {% if cookie.httponly %}
+
+                        Yes
+
+                    {% else %}
+
+                        No
+
+                    {% endif %}
+
+                </p>
+
+
+                <p>
+
+                    <strong>
+                        SameSite:
+                    </strong>
+
+                    {{ cookie.samesite }}
+
+                </p>
+
+            </div>
+
+
+            {% endfor %}
+
+
+        {% else %}
+
+            <p>
+                No cookies were returned.
+            </p>
+
+        {% endif %}
+
+    </div>
+
+
+    <!-- ================================= -->
+    <!-- BACK -->
+    <!-- ================================= -->
+
+    <div class="section">
+
+        <a
+            href="/"
+            class="back-button"
+        >
+
+            Scan Another Website
+
+        </a>
+
+    </div>
+
+
+</div>
+
+
+</body>
+
+</html>

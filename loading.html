@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Scanning...</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+
+</head>
+
+
+<body>
+
+<div class="container">
+
+    <div class="header">
+
+        <h1>🛡 Web Application Security Scanner</h1>
+
+        <p>Security analysis in progress</p>
+
+    </div>
+
+
+    <div class="section">
+
+        <h2>🔍 Scanning Target</h2>
+
+        <p class="target-url">
+            {{ url }}
+        </p>
+
+        <br>
+
+
+        <div class="scan-step">
+            ⏳ Validating URL...
+        </div>
+
+        <div class="scan-step">
+            ⏳ Connecting to website...
+        </div>
+
+        <div class="scan-step">
+            ⏳ Fetching HTML...
+        </div>
+
+        <div class="scan-step">
+            ⏳ Analyzing page...
+        </div>
+
+        <div class="scan-step">
+            ⏳ Detecting technologies...
+        </div>
+
+        <br>
+
+        <div class="loading-bar">
+            <div class="loading-progress"></div>
+        </div>
+
+        <br>
+
+        <p>
+            Please wait while the scan is being completed...
+        </p>
+
+    </div>
+
+</div>
+<script>
+
+    setTimeout(function() {
+
+        const form = document.createElement("form");
+
+        form.method = "POST";
+        form.action = "/scan";
+
+        const input = document.createElement("input");
+
+        input.type = "hidden";
+        input.name = "url";
+        input.value = "{{ url }}";
+
+        form.appendChild(input);
+
+        document.body.appendChild(form);
+
+        form.submit();
+
+    }, 2000);
+
+</script>
+</body>
+
+</html>
